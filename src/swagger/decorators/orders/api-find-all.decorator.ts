@@ -1,13 +1,13 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { ApiErrorResponses } from '../api-error-responses.decorator';
 import { Order } from '../../../orders/entities/order.entity';
 
-export const ApiCreateResponse = () => {
+export const ApiFindAllResponse = () => {
   return applyDecorators(
-    ApiCreatedResponse({
-      description: 'Order has been successfully created.',
-      type: Order,
+    ApiOkResponse({
+      description: 'List of all orders retrieved successfully.',
+      type: [Order],
     }),
     ApiErrorResponses({
       badRequest: true,

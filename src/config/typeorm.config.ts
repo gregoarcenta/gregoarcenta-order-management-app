@@ -8,7 +8,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const isProduction = this.configService.get('NODE_ENV') === 'production';
-    
+
     return {
       type: this.configService.get('DB_TYPE') as any,
       host: this.configService.get('DB_HOST'),
