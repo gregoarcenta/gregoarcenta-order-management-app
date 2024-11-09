@@ -11,14 +11,14 @@ import { PaginationDto } from './dto/pagination.dto';
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
+    private readonly ordersRepository: Repository<Order>,
     private readonly handlerException: HandlerException,
   ) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
     try {
-      const order = this.orderRepository.create(createOrderDto);
-      return await this.orderRepository.save(order);
+      const order = this.ordersRepository.create(createOrderDto);
+      return await this.ordersRepository.save(order);
     } catch (error) {
       this.handlerException.handlerDBException(error);
     }
@@ -31,7 +31,7 @@ export class OrdersService {
     const take = paginationDto.page_size;
     const status = paginationDto.status;
 
-    const queryBuilder = this.orderRepository.createQueryBuilder('order');
+    const queryBuilder = this.ordersRepository.createQueryBuilder('order');
     try {
       if (paginationDto.status) {
         queryBuilder.where('order.status = :status', { status });
@@ -51,7 +51,7 @@ export class OrdersService {
     let order: Order = null;
 
     try {
-      order = await this.orderRepository.findOneBy({ id });
+      order = await this.ordersRepository.findOneBy({ id });
     } catch (error) {
       this.handlerException.handlerDBException(error);
     }
@@ -64,11 +64,11 @@ export class OrdersService {
   async update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     let order: Order = await this.findOne(id);
     try {
-      order = await this.orderRepository.preload({
+      order = await this.ordersRepository.preload({
         ...order,
         ...updateOrderDto,
       });
-      await this.orderRepository.save(order);
+      await this.ordersRepository.save(order);
     } catch (error) {
       this.handlerException.handlerDBException(error);
     }
@@ -78,7 +78,7 @@ export class OrdersService {
   async remove(id: string): Promise<string> {
     const order: Order = await this.findOne(id);
     try {
-      await this.orderRepository.remove(order);
+      await this.ordersRepository.remove(order);
     } catch (error) {
       this.handlerException.handlerDBException(error);
     }

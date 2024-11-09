@@ -40,7 +40,7 @@ export class Order {
     enumName: 'OrderStatusEnum',
     enum: Status,
   })
-  status: Status;
+  status?: Status;
 
   @CreateDateColumn({ type: 'timestamptz' })
   @ApiProperty({
